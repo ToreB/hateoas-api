@@ -1,6 +1,8 @@
-package no.toreb.hateoasapi.domain;
+package no.toreb.hateoasapi.dto;
 
-import no.toreb.hateoasapi.db.model.ItemRecord;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import no.toreb.hateoasapi.domain.Item;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,23 +10,27 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.UUID;
 
-public class Item {
+@JsonInclude(Include.NON_NULL)
+public class ItemResponse {
 
     private final UUID id;
+    private final UUID userId;
     private final String name;
     private final String description;
 
-    private final User user;
-
-    public Item(final UUID id, final String name, final String description, final User user) {
+    public ItemResponse(final UUID id, final UUID userId, final String name, final String description) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.description = description;
-        this.user = user;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getName() {
@@ -35,12 +41,11 @@ public class Item {
         return description;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public static Item of(final ItemRecord itemRecord, final User user) {
-        return new Item(itemRecord.getId(), itemRecord.getName(), itemRecord.getDescription(), user);
+    public static ItemResponse of(final Item item) {
+        return new ItemResponse(item.getId(),
+                                item.getUser().getId(),
+                                item.getName(),
+                                item.getDescription());
     }
 
     @Override
@@ -53,13 +58,13 @@ public class Item {
             return false;
         }
 
-        final Item item = (Item) o;
+        final ItemResponse response = (ItemResponse) o;
 
         return new EqualsBuilder()
-                .append(id, item.id)
-                .append(name, item.name)
-                .append(description, item.description)
-                .append(user, item.user)
+                .append(id, response.id)
+                .append(userId, response.userId)
+                .append(name, response.name)
+                .append(description, response.description)
                 .isEquals();
     }
 
@@ -67,9 +72,9 @@ public class Item {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
+                .append(userId)
                 .append(name)
                 .append(description)
-                .append(user)
                 .toHashCode();
     }
 
@@ -77,9 +82,9 @@ public class Item {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
+                .append("userId", userId)
                 .append("name", name)
                 .append("description", description)
-                .append("user", user)
                 .toString();
     }
 }

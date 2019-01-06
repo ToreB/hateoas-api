@@ -1,6 +1,6 @@
-package no.toreb.hateoasapi.domain;
+package no.toreb.hateoasapi.db.model;
 
-import no.toreb.hateoasapi.db.model.UserRecord;
+import no.toreb.hateoasapi.domain.Item;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,26 +8,38 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.UUID;
 
-public class User {
+public class ItemRecord {
 
     private final UUID id;
+    private final UUID userId;
     private final String name;
+    private final String description;
 
-    public User(final UUID id, final String name) {
+    public ItemRecord(final UUID id, final UUID userId, final String name, final String description) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
+        this.description = description;
     }
 
     public UUID getId() {
         return id;
     }
 
+    public UUID getUserId() {
+        return userId;
+    }
+
     public String getName() {
         return name;
     }
 
-    public static User of(final UserRecord user) {
-        return new User(user.getId(), user.getName());
+    public String getDescription() {
+        return description;
+    }
+
+    public static ItemRecord of(final Item item) {
+        return new ItemRecord(item.getId(), item.getUser().getId(), item.getName(), item.getDescription());
     }
 
     @Override
@@ -40,11 +52,13 @@ public class User {
             return false;
         }
 
-        final User user = (User) o;
+        final ItemRecord itemRecord = (ItemRecord) o;
 
         return new EqualsBuilder()
-                .append(id, user.id)
-                .append(name, user.name)
+                .append(id, itemRecord.id)
+                .append(userId, itemRecord.userId)
+                .append(name, itemRecord.name)
+                .append(description, itemRecord.description)
                 .isEquals();
     }
 
@@ -52,7 +66,9 @@ public class User {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
+                .append(userId)
                 .append(name)
+                .append(description)
                 .toHashCode();
     }
 
@@ -60,7 +76,9 @@ public class User {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("id", id)
+                .append("userId", userId)
                 .append("name", name)
+                .append("description", description)
                 .toString();
     }
 }
