@@ -27,7 +27,7 @@ public class HALResource<T> extends ResourceSupport {
     @JsonProperty("_embedded")
     private final Map<String, ?> embedded;
 
-    public HALResource(final T content, final Iterable<Link> links, final Map<String, ?> embedded) {
+    HALResource(final T content, final Iterable<Link> links, final Map<String, ?> embedded) {
         this.content = content;
         this.embedded = new HashMap<>(embedded);
         add(links);
