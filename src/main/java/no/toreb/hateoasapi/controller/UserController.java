@@ -24,10 +24,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UserController {
 
     private final UserService userService;
-    private final UserResourceAssembler assembler;
+    private final UserResponseAssembler assembler;
 
     @Autowired
-    public UserController(final UserService userService, final UserResourceAssembler assembler) {
+    public UserController(final UserService userService, final UserResponseAssembler assembler) {
         this.userService = userService;
         this.assembler = assembler;
     }

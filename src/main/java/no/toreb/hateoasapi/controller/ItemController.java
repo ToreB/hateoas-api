@@ -24,11 +24,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class ItemController {
 
     private final ItemService itemService;
-    private final ItemResourceAssembler assembler;
+    private final ItemResponseAssembler assembler;
 
     @Autowired
     public ItemController(final ItemService itemService,
-                          final ItemResourceAssembler assembler) {
+                          final ItemResponseAssembler assembler) {
         this.itemService = itemService;
         this.assembler = assembler;
     }

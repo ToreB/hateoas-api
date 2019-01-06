@@ -8,9 +8,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +33,12 @@ public class HALResource<T> extends ResourceSupport {
         add(links);
     }
 
-    public HALResource(final T content, final Link... links) {
-        this(content, Arrays.asList(links), Collections.emptyMap());
+    public HALResource(final Resource<T> resource, final Map<String, ?> embedded) {
+        this(resource.getContent(), resource.getLinks(), embedded);
+    }
+
+    public HALResource(final Resource<T> resource) {
+        this(resource.getContent(), resource.getLinks(), Collections.emptyMap());
     }
 
     public T getContent() {
