@@ -1,9 +1,10 @@
-package no.toreb.hateoasapi.controller;
+package no.toreb.hateoasapi.api.v1.controller;
 
-import no.toreb.hateoasapi.controller.response.CollectionResource;
-import no.toreb.hateoasapi.controller.response.HALResource;
-import no.toreb.hateoasapi.controller.response.UserResponse;
-import no.toreb.hateoasapi.controller.response.assembler.UserResponseAssembler;
+import no.toreb.hateoasapi.api.Version;
+import no.toreb.hateoasapi.api.common.response.CollectionResource;
+import no.toreb.hateoasapi.api.common.response.HALResource;
+import no.toreb.hateoasapi.api.common.response.UserResponse;
+import no.toreb.hateoasapi.api.v1.response.assembler.UserResponseAssembler;
 import no.toreb.hateoasapi.domain.User;
 import no.toreb.hateoasapi.exception.NotFoundException;
 import no.toreb.hateoasapi.service.UserService;
@@ -21,7 +22,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(path = "/users", produces = {Version.V1})
 public class UserController {
 
     private final UserService userService;

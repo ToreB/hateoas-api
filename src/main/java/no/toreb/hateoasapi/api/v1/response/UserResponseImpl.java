@@ -1,21 +1,20 @@
-package no.toreb.hateoasapi.controller.response;
+package no.toreb.hateoasapi.api.v1.response;
 
+import no.toreb.hateoasapi.api.common.response.UserResponse;
 import no.toreb.hateoasapi.domain.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.hateoas.core.Relation;
 
 import java.util.UUID;
 
-@Relation(value = "user", collectionRelation = "users")
-public class UserResponse {
+public class UserResponseImpl implements UserResponse {
 
     private final UUID id;
     private final String name;
 
-    public UserResponse(final UUID id, final String name) {
+    public UserResponseImpl(final UUID id, final String name) {
         this.id = id;
         this.name = name;
     }
@@ -28,8 +27,8 @@ public class UserResponse {
         return name;
     }
 
-    public static UserResponse of(final User user) {
-        return new UserResponse(user.getId(), user.getName());
+    public static UserResponseImpl of(final User user) {
+        return new UserResponseImpl(user.getId(), user.getName());
     }
 
     @Override
@@ -42,7 +41,7 @@ public class UserResponse {
             return false;
         }
 
-        final UserResponse that = (UserResponse) o;
+        final UserResponseImpl that = (UserResponseImpl) o;
 
         return new EqualsBuilder()
                 .append(id, that.id)

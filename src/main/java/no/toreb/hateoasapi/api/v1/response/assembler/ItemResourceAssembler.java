@@ -1,7 +1,8 @@
-package no.toreb.hateoasapi.controller.response.assembler;
+package no.toreb.hateoasapi.api.v1.response.assembler;
 
-import no.toreb.hateoasapi.controller.ItemController;
-import no.toreb.hateoasapi.controller.response.ItemResponse;
+import no.toreb.hateoasapi.api.common.response.ItemResponse;
+import no.toreb.hateoasapi.api.v1.controller.ItemController;
+import no.toreb.hateoasapi.api.v1.response.ItemResponseImpl;
 import no.toreb.hateoasapi.domain.Item;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
@@ -15,7 +16,7 @@ class ItemResourceAssembler implements ResourceAssembler<Item, Resource<ItemResp
 
     @Override
     public Resource<ItemResponse> toResource(final Item item) {
-        return new Resource<>(ItemResponse.of(item),
+        return new Resource<>(ItemResponseImpl.of(item),
                               linkTo(methodOn(ItemController.class).getById(item.getId())).withSelfRel(),
                               linkTo(methodOn(ItemController.class).getAll()).withRel("items"));
     }

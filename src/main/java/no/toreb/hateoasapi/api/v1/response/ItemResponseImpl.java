@@ -1,7 +1,8 @@
-package no.toreb.hateoasapi.controller.response;
+package no.toreb.hateoasapi.api.v1.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import no.toreb.hateoasapi.api.common.response.ItemResponse;
 import no.toreb.hateoasapi.domain.Item;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,14 +12,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.UUID;
 
 @JsonInclude(Include.NON_NULL)
-public class ItemResponse {
+public class ItemResponseImpl implements ItemResponse {
 
     private final UUID id;
     private final UUID userId;
     private final String name;
     private final String description;
 
-    public ItemResponse(final UUID id, final UUID userId, final String name, final String description) {
+    public ItemResponseImpl(final UUID id, final UUID userId, final String name, final String description) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -41,11 +42,11 @@ public class ItemResponse {
         return description;
     }
 
-    public static ItemResponse of(final Item item) {
-        return new ItemResponse(item.getId(),
-                                item.getUser().getId(),
-                                item.getName(),
-                                item.getDescription());
+    public static ItemResponseImpl of(final Item item) {
+        return new ItemResponseImpl(item.getId(),
+                                    item.getUser().getId(),
+                                    item.getName(),
+                                    item.getDescription());
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ItemResponse {
             return false;
         }
 
-        final ItemResponse response = (ItemResponse) o;
+        final ItemResponseImpl response = (ItemResponseImpl) o;
 
         return new EqualsBuilder()
                 .append(id, response.id)

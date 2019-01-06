@@ -1,4 +1,4 @@
-package no.toreb.hateoasapi.controller.response;
+package no.toreb.hateoasapi.api.common.response;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
