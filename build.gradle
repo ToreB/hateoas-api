@@ -30,4 +30,5 @@ dependencies {
     implementation('org.flywaydb:flyway-core')
     runtimeOnly('com.h2database:h2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.flywaydb.flyway-test-extensions:flyway-spring-test:5.2.1')
 }
