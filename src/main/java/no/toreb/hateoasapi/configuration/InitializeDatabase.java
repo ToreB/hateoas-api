@@ -40,7 +40,10 @@ public class InitializeDatabase {
             final ItemRecord item1 = new ItemRecord(UUID.randomUUID(), user1.getId(), "User 1 Task 1", "Do task!");
             final ItemRecord item2 = new ItemRecord(UUID.randomUUID(), user1.getId(), "User 1 Task 2", null);
             final ItemRecord item3 = new ItemRecord(UUID.randomUUID(), user1.getId(), "User 1 Task 3", null);
-            final ItemRecord item4 = new ItemRecord(UUID.randomUUID(), user2.getId(), "User 2 Task 1", "My first task.");
+            final ItemRecord item4 = new ItemRecord(UUID.randomUUID(),
+                                                    user2.getId(),
+                                                    "User 2 Task 1",
+                                                    "My first task.");
 
             userDao.insert(user1);
             userDao.insert(user2);

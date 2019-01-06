@@ -35,9 +35,10 @@ public class UserDao {
 
     @Transactional(readOnly = true)
     public Optional<UserRecord> findById(final UUID id) {
-        final UserRecord userRecord = DataAccessUtils.singleResult(jdbcTemplate.query("select * from USERS where id = :id",
-                                                                                      new MapSqlParameterSource("id", id),
-                                                                                      new UserRowMapper()));
+        final UserRecord userRecord = DataAccessUtils.singleResult(jdbcTemplate.query(
+                "select * from USERS where id = :id",
+                new MapSqlParameterSource("id", id),
+                new UserRowMapper()));
         return Optional.ofNullable(userRecord);
     }
 

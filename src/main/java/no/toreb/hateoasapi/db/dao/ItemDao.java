@@ -32,9 +32,10 @@ public class ItemDao {
 
     @Transactional(readOnly = true)
     public Optional<ItemRecord> findById(final UUID id) {
-        final ItemRecord itemRecord = DataAccessUtils.singleResult(jdbcTemplate.query("select * from items where id = :id",
-                                                                                      new MapSqlParameterSource("id", id),
-                                                                                      new ItemRowMapper()));
+        final ItemRecord itemRecord = DataAccessUtils.singleResult(jdbcTemplate.query(
+                "select * from items where id = :id",
+                new MapSqlParameterSource("id", id),
+                new ItemRowMapper()));
         return Optional.ofNullable(itemRecord);
     }
 
@@ -43,12 +44,13 @@ public class ItemDao {
         final MapSqlParameterSource params = new MapSqlParameterSource().addValue("id", itemRecord.getId())
                                                                         .addValue("user_id", itemRecord.getUserId())
                                                                         .addValue("name", itemRecord.getName())
-                                                                        .addValue("description", itemRecord.getDescription());
+                                                                        .addValue("description",
+                                                                                  itemRecord.getDescription());
 
         jdbcTemplate.update("insert into items (" +
-                                     "  ID, USER_ID, NAME, DESCRIPTION) " +
-                                     "values (" +
-                                     "  :id, :user_id, :name, :description)", params);
+                                    "  ID, USER_ID, NAME, DESCRIPTION) " +
+                                    "values (" +
+                                    "  :id, :user_id, :name, :description)", params);
     }
 
     private static class ItemRowMapper implements RowMapper<ItemRecord> {

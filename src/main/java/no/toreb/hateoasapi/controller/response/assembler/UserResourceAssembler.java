@@ -5,7 +5,6 @@ import no.toreb.hateoasapi.controller.response.UserResponse;
 import no.toreb.hateoasapi.domain.User;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
-import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -17,7 +16,7 @@ class UserResourceAssembler implements ResourceAssembler<User, Resource<UserResp
     @Override
     public Resource<UserResponse> toResource(final User user) {
         return new Resource<>(UserResponse.of(user),
-                              ControllerLinkBuilder.linkTo(methodOn(UserController.class).getById(user.getId())).withSelfRel(),
+                              linkTo(methodOn(UserController.class).getById(user.getId())).withSelfRel(),
                               linkTo(methodOn(UserController.class).getAll()).withRel("users"));
     }
 }
