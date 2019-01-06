@@ -1,4 +1,4 @@
-package no.toreb.hateoasapi.dto;
+package no.toreb.hateoasapi.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

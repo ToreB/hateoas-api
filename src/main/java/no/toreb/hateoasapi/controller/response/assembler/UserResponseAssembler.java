@@ -1,8 +1,8 @@
-package no.toreb.hateoasapi.controller;
+package no.toreb.hateoasapi.controller.response.assembler;
 
+import no.toreb.hateoasapi.controller.response.HALResource;
+import no.toreb.hateoasapi.controller.response.UserResponse;
 import no.toreb.hateoasapi.domain.User;
-import no.toreb.hateoasapi.dto.HALResource;
-import no.toreb.hateoasapi.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

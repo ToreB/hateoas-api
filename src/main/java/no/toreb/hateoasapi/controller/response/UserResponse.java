@@ -1,4 +1,4 @@
-package no.toreb.hateoasapi.dto;
+package no.toreb.hateoasapi.controller.response;
 
 import no.toreb.hateoasapi.domain.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;

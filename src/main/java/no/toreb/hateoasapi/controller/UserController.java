@@ -1,9 +1,10 @@
 package no.toreb.hateoasapi.controller;
 
+import no.toreb.hateoasapi.controller.response.CollectionResource;
+import no.toreb.hateoasapi.controller.response.HALResource;
+import no.toreb.hateoasapi.controller.response.UserResponse;
+import no.toreb.hateoasapi.controller.response.assembler.UserResponseAssembler;
 import no.toreb.hateoasapi.domain.User;
-import no.toreb.hateoasapi.dto.CollectionResource;
-import no.toreb.hateoasapi.dto.HALResource;
-import no.toreb.hateoasapi.dto.UserResponse;
 import no.toreb.hateoasapi.exception.NotFoundException;
 import no.toreb.hateoasapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

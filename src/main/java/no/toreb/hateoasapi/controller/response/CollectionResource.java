@@ -1,4 +1,4 @@
-package no.toreb.hateoasapi.dto;
+package no.toreb.hateoasapi.controller.response;
 
 import org.springframework.hateoas.Link;
 
