@@ -1,6 +1,6 @@
 package no.toreb.hateoasapi.api.v1.controller;
 
-import no.toreb.hateoasapi.api.Version;
+import no.toreb.hateoasapi.api.CustomMediaType;
 import no.toreb.hateoasapi.api.common.response.CollectionResource;
 import no.toreb.hateoasapi.api.common.response.HALResource;
 import no.toreb.hateoasapi.api.common.response.ItemResponse;
@@ -22,7 +22,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/items", produces = {Version.V1})
+@RequestMapping(path = "/items", produces = {CustomMediaType.V1_VALUE})
 public class ItemController {
 
     private final ItemService itemService;
