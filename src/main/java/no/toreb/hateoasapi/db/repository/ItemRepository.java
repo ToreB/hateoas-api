@@ -44,9 +44,19 @@ public class ItemRepository {
         itemDao.insert(ItemRecord.of(item));
     }
 
+    @Transactional
+    public void update(final Item item) {
+        itemDao.update(ItemRecord.of(item));
+    }
+
     private User getUser(final UUID userId) {
         return userDao.findById(userId)
                       .map(User::of)
                       .orElse(null);
+    }
+
+    @Transactional
+    public void delete(final UUID id) {
+        itemDao.delete(id);
     }
 }

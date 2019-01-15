@@ -6,6 +6,7 @@ import no.toreb.hateoasapi.db.model.ItemRecord;
 import no.toreb.hateoasapi.db.model.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.util.UUID;
 
 @Configuration
+@ConditionalOnProperty(name = "app.populate-db", havingValue = "true")
 public class InitializeDatabase {
 
     private final JdbcTemplate jdbcTemplate;

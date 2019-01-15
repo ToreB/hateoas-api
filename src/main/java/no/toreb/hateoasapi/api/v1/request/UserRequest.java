@@ -1,34 +1,22 @@
-package no.toreb.hateoasapi.api.v1.response;
+package no.toreb.hateoasapi.api.v1.request;
 
-import no.toreb.hateoasapi.api.common.response.UserResponse;
-import no.toreb.hateoasapi.domain.User;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.UUID;
+public class UserRequest {
 
-public class UserResponseImpl implements UserResponse {
-
-    private final UUID id;
     private final String name;
 
-    public UserResponseImpl(final UUID id, final String name) {
-        this.id = id;
+    @JsonCreator
+    public UserRequest(final String name) {
         this.name = name;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public static UserResponseImpl of(final User user) {
-        return new UserResponseImpl(user.getId(), user.getName());
     }
 
     @Override
@@ -41,10 +29,9 @@ public class UserResponseImpl implements UserResponse {
             return false;
         }
 
-        final UserResponseImpl that = (UserResponseImpl) o;
+        final UserRequest that = (UserRequest) o;
 
         return new EqualsBuilder()
-                .append(id, that.id)
                 .append(name, that.name)
                 .isEquals();
     }
@@ -52,7 +39,6 @@ public class UserResponseImpl implements UserResponse {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
                 .append(name)
                 .toHashCode();
     }
@@ -60,7 +46,6 @@ public class UserResponseImpl implements UserResponse {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .append("id", id)
                 .append("name", name)
                 .toString();
     }

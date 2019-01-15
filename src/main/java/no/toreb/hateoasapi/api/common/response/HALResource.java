@@ -3,6 +3,7 @@ package no.toreb.hateoasapi.api.common.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -27,9 +28,9 @@ public class HALResource<T> extends ResourceSupport {
     @JsonProperty("_embedded")
     private final Map<String, ?> embedded;
 
-    HALResource(final T content, final Iterable<Link> links, final Map<String, ?> embedded) {
+    public HALResource(final T content, final Iterable<Link> links, final Map<String, ?> embedded) {
         this.content = content;
-        this.embedded = new HashMap<>(embedded);
+        this.embedded = embedded != null ? new HashMap<>(embedded) : Map.of();
         add(links);
     }
 
@@ -64,7 +65,8 @@ public class HALResource<T> extends ResourceSupport {
         return new EqualsBuilder()
                 .append(content, that.content)
                 .append(embedded, that.embedded)
-                .isEquals();
+                .isEquals()
+                && CollectionUtils.isEqualCollection(getLinks(), that.getLinks());
     }
 
     @Override
@@ -72,6 +74,7 @@ public class HALResource<T> extends ResourceSupport {
         return new HashCodeBuilder(17, 37)
                 .append(content)
                 .append(embedded)
+                .append(getLinks())
                 .toHashCode();
     }
 
@@ -80,6 +83,7 @@ public class HALResource<T> extends ResourceSupport {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .append("content", content)
                 .append("embedded", embedded)
+                .append("links", getLinks())
                 .toString();
     }
 }

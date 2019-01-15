@@ -41,16 +41,32 @@ public class ItemDao {
 
     @Transactional
     public void insert(final ItemRecord itemRecord) {
-        final MapSqlParameterSource params = new MapSqlParameterSource().addValue("id", itemRecord.getId())
-                                                                        .addValue("user_id", itemRecord.getUserId())
-                                                                        .addValue("name", itemRecord.getName())
-                                                                        .addValue("description",
-                                                                                  itemRecord.getDescription());
-
         jdbcTemplate.update("insert into items (" +
                                     "  ID, USER_ID, NAME, DESCRIPTION) " +
                                     "values (" +
-                                    "  :id, :user_id, :name, :description)", params);
+                                    "  :id, :user_id, :name, :description)", toParameterSource(itemRecord));
+    }
+
+    @Transactional
+    public void update(final ItemRecord itemRecord) {
+        jdbcTemplate.update("update items " +
+                                    " set NAME = :name, " +
+                                    "    DESCRIPTION = :description, " +
+                                    "    USER_ID = :user_id " +
+                                    " where ID = :id", toParameterSource(itemRecord));
+    }
+
+    private MapSqlParameterSource toParameterSource(final ItemRecord itemRecord) {
+        return new MapSqlParameterSource().addValue("id", itemRecord.getId())
+                                          .addValue("user_id", itemRecord.getUserId())
+                                          .addValue("name", itemRecord.getName())
+                                          .addValue("description",
+                                                    itemRecord.getDescription());
+    }
+
+    @Transactional
+    public void delete(final UUID id) {
+        jdbcTemplate.update("delete from items where id = :id", new MapSqlParameterSource("id", id));
     }
 
     private static class ItemRowMapper implements RowMapper<ItemRecord> {

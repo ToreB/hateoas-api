@@ -9,9 +9,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.hateoas.Link;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class CollectionResource<T> extends HALResource<CollectionMetadata> {
 
@@ -19,9 +19,9 @@ public class CollectionResource<T> extends HALResource<CollectionMetadata> {
 
     public CollectionResource(final String collectionName,
                               final Collection<HALResource<T>> collection,
-                              final Link... links) {
+                              final List<Link> links) {
         super(new CollectionMetadata(collection.size()),
-              Arrays.asList(links),
+              links,
               Collections.singletonMap(collectionName, new ArrayList<>(collection)));
         this.collectionName = collectionName;
     }

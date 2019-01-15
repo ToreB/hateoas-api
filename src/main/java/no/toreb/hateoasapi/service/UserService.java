@@ -3,6 +3,7 @@ package no.toreb.hateoasapi.service;
 import no.toreb.hateoasapi.db.repository.UserRepository;
 import no.toreb.hateoasapi.domain.User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.IdGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +14,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(final UserRepository userRepository) {
+    private final IdGenerator idGenerator;
+
+    public UserService(final UserRepository userRepository, final IdGenerator idGenerator) {
         this.userRepository = userRepository;
+        this.idGenerator = idGenerator;
     }
 
     public List<User> findAll() {
@@ -25,7 +29,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void insert(final User user) {
+    public User insert(final User newUser) {
+        final User user = new User(idGenerator.generateId(), newUser.getName());
+
         userRepository.insert(user);
+
+        return user;
     }
 }
