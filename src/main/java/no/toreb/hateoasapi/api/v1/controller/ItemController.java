@@ -12,6 +12,7 @@ import no.toreb.hateoasapi.exception.NotFoundException;
 import no.toreb.hateoasapi.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,6 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/items", produces = {CustomMediaType.V1_VALUE})
+@PreAuthorize("hasRole('SECURED')")
 public class ItemController {
 
     private final ItemService itemService;

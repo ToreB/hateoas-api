@@ -27,6 +27,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-hateoas')
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.flywaydb:flyway-core')
     implementation('org.apache.commons:commons-lang3:3.8.1')
     implementation('org.apache.commons:commons-collections4:4.2');

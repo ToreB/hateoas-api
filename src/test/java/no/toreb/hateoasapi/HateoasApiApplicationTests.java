@@ -36,7 +36,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT,
+        properties = {
+                "spring.security.user.name=theUser",
+                "spring.security.user.password=thePassword",
+                "spring.security.user.roles=SECURED"
+        })
 @AutoConfigureTestDatabase
 public class HateoasApiApplicationTests {
 
@@ -89,7 +94,8 @@ public class HateoasApiApplicationTests {
 
         final ResponseEntity<HALResource<UserResponse>> postUserEntity = deserializer.deserialize(
                 UserResponse.class,
-                () -> template.postForEntity("/users", new HttpEntity<>(userRequest), String.class));
+                () -> template.withBasicAuth("theUser", "thePassword")
+                              .postForEntity("/users", new HttpEntity<>(userRequest), String.class));
 
         assertResponseEntity(postUserEntity, HttpStatus.CREATED, new HALResource<>(
                 new UserResponse(userId, userRequest.getName()),
@@ -98,12 +104,14 @@ public class HateoasApiApplicationTests {
 
         // GetById User
         final ResponseEntity<HALResource<UserResponse>> getUserByIdEntity = deserializer.deserialize(
-                UserResponse.class, () -> template.getForEntity("/users/" + userId, String.class));
+                UserResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .getForEntity("/users/" + userId, String.class));
         assertResponseEntity(getUserByIdEntity, HttpStatus.OK, postUserEntity.getBody());
 
         // GetAll User
         final ResponseEntity<CollectionResource<UserResponse>> getAllUsers = deserializer.deserializeCollection(
-                UserResponse.class, () -> template.getForEntity("/users", String.class));
+                UserResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .getForEntity("/users", String.class));
         assertResponseEntity(getAllUsers, HttpStatus.OK, new CollectionResource<>("users",
                                                                                   List.of(getUserByIdEntity.getBody()),
                                                                                   List.of(createLink("/users",
@@ -117,7 +125,8 @@ public class HateoasApiApplicationTests {
         // Item 1
         final ItemRequest itemRequest1 = new ItemRequest(userId, "Item 1", "Just do it!");
         final ResponseEntity<HALResource<ItemResponse>> postItemEntity1 = deserializer.deserialize(
-                ItemResponse.class, () -> template.postForEntity("/items", itemRequest1, String.class));
+                ItemResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .postForEntity("/items", itemRequest1, String.class));
         assertResponseEntity(postItemEntity1, HttpStatus.CREATED, new HALResource<>(
                 new ItemResponse(itemId1, userId, itemRequest1.getName(), itemRequest1.getDescription()),
                 List.of(createLink("/items", "items"), createLink("/items/" + itemId1, "self")),
@@ -127,7 +136,8 @@ public class HateoasApiApplicationTests {
         // Item 2
         final ItemRequest itemRequest2 = new ItemRequest(userId, "Item 2", "Do whenever...");
         final ResponseEntity<HALResource<ItemResponse>> postItemEntity2 = deserializer.deserialize(
-                ItemResponse.class, () -> template.postForEntity("/items", itemRequest2, String.class));
+                ItemResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .postForEntity("/items", itemRequest2, String.class));
         assertResponseEntity(postItemEntity2, HttpStatus.CREATED, new HALResource<>(
                 new ItemResponse(itemId2, userId, itemRequest2.getName(), itemRequest2.getDescription()),
                 List.of(createLink("/items", "items"), createLink("/items/" + itemId2, "self")),
@@ -136,12 +146,14 @@ public class HateoasApiApplicationTests {
 
         // GetById Item
         final ResponseEntity<HALResource<ItemResponse>> getItemByIdEntity = deserializer.deserialize(
-                ItemResponse.class, () -> template.getForEntity("/items/" + itemId1, String.class));
+                ItemResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .getForEntity("/items/" + itemId1, String.class));
         assertResponseEntity(getItemByIdEntity, HttpStatus.OK, postItemEntity1.getBody());
 
         // GetAll Items
         final ResponseEntity<CollectionResource<ItemResponse>> getAllItems = deserializer.deserializeCollection(
-                ItemResponse.class, () -> template.getForEntity("/items", String.class));
+                ItemResponse.class, () -> template.withBasicAuth("theUser", "thePassword")
+                                                  .getForEntity("/items", String.class));
         assertResponseEntity(getAllItems, HttpStatus.OK, new CollectionResource<>(
                 "items",
                 List.of(postItemEntity1.getBody(), postItemEntity2.getBody()),
@@ -151,7 +163,8 @@ public class HateoasApiApplicationTests {
         final ItemRequest itemRequestUpdate = new ItemRequest(userId, "Item 1!", "Just do it... please?");
         final ResponseEntity<HALResource<ItemResponse>> patchItem1Entity = deserializer.deserialize(
                 ItemResponse.class,
-                () -> template.exchange("/items/" + itemId1,
+                () -> template.withBasicAuth("theUser", "thePassword")
+                              .exchange("/items/" + itemId1,
                                         HttpMethod.PATCH,
                                         new HttpEntity<>(itemRequestUpdate),
                                         String.class));
@@ -164,7 +177,8 @@ public class HateoasApiApplicationTests {
         // Delete item
         final ResponseEntity<HALResource<ItemResponse>> deleteItemEntity = deserializer.deserialize(
                 ItemResponse.class,
-                () -> template.exchange("/items/" + itemId2, HttpMethod.DELETE, null, String.class));
+                () -> template.withBasicAuth("theUser", "thePassword")
+                              .exchange("/items/" + itemId2, HttpMethod.DELETE, null, String.class));
         assertResponseEntity(deleteItemEntity, HttpStatus.OK, new HALResource<>(null,
                                                                                 List.of(createLink("/items", "items")),
                                                                                 Map.of()));
