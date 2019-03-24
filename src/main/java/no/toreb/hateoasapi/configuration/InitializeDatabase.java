@@ -5,11 +5,15 @@ import no.toreb.hateoasapi.db.dao.UserDao;
 import no.toreb.hateoasapi.db.model.ItemRecord;
 import no.toreb.hateoasapi.db.model.UserRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 
 import java.sql.ResultSet;
 import java.util.UUID;
@@ -19,14 +23,22 @@ import java.util.UUID;
 public class InitializeDatabase {
 
     private final JdbcTemplate jdbcTemplate;
+    private final String user;
+    private final String password;
 
     @Autowired
-    public InitializeDatabase(final JdbcTemplate jdbcTemplate) {
+    public InitializeDatabase(final JdbcTemplate jdbcTemplate,
+                              @Value("${spring.security.user.name}") final String user,
+                              @Value("${spring.security.user.password}")final String password) {
         this.jdbcTemplate = jdbcTemplate;
+        this.user = user;
+        this.password = password;
     }
 
     @Bean
     public CommandLineRunner initDatabase(final UserDao userDao, final ItemDao itemDao) {
+        final UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user, password);
+        SecurityContextHolder.setContext(new SecurityContextImpl(authReq));
         return args -> {
             @SuppressWarnings("ConstantConditions")
             final boolean exists = jdbcTemplate.query("select 1 from USERS", ResultSet::next);
